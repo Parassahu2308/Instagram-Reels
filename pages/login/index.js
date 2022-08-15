@@ -25,7 +25,7 @@ function index() {
            showThumbs={false}
            showIndicators={false}
            showStatus={false}
-           transitionTime={3} >
+           transitionTime={6} >
              <Image src={bg1}/>
              <Image src={bg2}/>
              <Image src={bg3}/>

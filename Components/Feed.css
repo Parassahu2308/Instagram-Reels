@@ -1,0 +1,61 @@
+.feed-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 0 1rem;
+}
+
+.toolbar{
+    min-height: 56px;
+    margin: 0 80px;
+}
+
+.nav-icons{
+    margin: 0.5rem;
+    color: black;
+}
+
+.nav-icons-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-btn{
+    margin-top: 1rem;
+}
+
+.videos-container{
+    height: 70vh;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    scrollbar-width: 0;
+}
+
+.post-container{
+    height: 100%;
+    width: 20rem;
+    margin-bottom: 1rem;
+}
+
+.post-container>video{
+    height: 100%;
+    object-fit: contain;
+    width: 20rem;
+    border-radius: 15px;
+}
+
+@media screen and (max-width:500px){
+    .nav-icons{
+        display: none;
+    }
+}
