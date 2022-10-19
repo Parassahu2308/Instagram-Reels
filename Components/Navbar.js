@@ -1,28 +1,29 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Image from "next/image"
-import insta from "../assests/Instagram.jpeg"
-import HomeIcon from '@mui/icons-material/Home';
-import ExploreIcon from '@mui/icons-material/Explore';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Image from "next/image";
+import insta from "../assests/Instagram.jpeg";
+import HomeIcon from "@mui/icons-material/Home";
+import ExploreIcon from "@mui/icons-material/Explore";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import { AuthContext } from "../context/auth";
+import { useRouter } from "next/router";
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile','Logout'];
-
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({ userData }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { logout } = React.useContext(AuthContext);
+  const router = useRouter();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -39,10 +40,22 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
+  const handleProfile = () => {
+    router.push("/profile");
+  };
+
   return (
-    <AppBar position="static" className="navbar">
+    <AppBar
+      position="static"
+      className="navbar"
+      sx={{ backgroundColor: "white" }}
+    >
       <Container maxWidth="xl">
-        <Toolbar disableGutters className="toolbar" >
+        <Toolbar disableGutters className="toolbar">
           <Typography
             variant="h6"
             noWrap
@@ -50,49 +63,69 @@ const ResponsiveAppBar = () => {
             href="/"
             sx={{
               mr: 2,
-              display: { md: 'flex' },
-              fontFamily: 'monospace',
+              display: { md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
-            <Image src={insta} width={200} height={55}/>
+            <Image src={insta} width={200} height={55} />
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }} className="nav-icons-container">
-            <HomeIcon fontSize="large" className="nav-icons"/>
-            <ExploreIcon fontSize="large" className="nav-icons"/>
+            <HomeIcon
+              fontSize="large"
+              className="nav-icons home"
+              onClick={() => {
+                router.push("/");
+              }}
+            />
+            <ExploreIcon fontSize="large" className="nav-icons" />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" sx={{ margin: "0.5rem" }} />
+                <Avatar
+                  alt={userData.fullName}
+                  src={userData.downloadURL}
+                  sx={{ margin: "0.5rem" }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                onClick={() => {
+                  handleProfile();
+                  handleCloseUserMenu();
+                }}
+              >
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleLogout();
+                  handleCloseUserMenu();
+                }}
+              >
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
