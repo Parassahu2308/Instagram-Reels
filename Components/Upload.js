@@ -73,7 +73,7 @@ function Upload({ userData }) {
             postURL: downloadURL,
             profileName: userData.fullName,
             profilePhotoURL: userData.downloadURL,
-            postUid: userData.uid,
+            postUid: userData.userUid,
             timestamp: serverTimestamp(),
           };
           console.log("post", post);
@@ -81,7 +81,7 @@ function Upload({ userData }) {
           console.log("posts added to post collection");
 
           //update in users, posts ka arr
-          await updateDoc(doc(db, "users", userData.uid), {
+          await updateDoc(doc(db, "users", userData.userUid), {
             posts: arrayUnion(uid),
           });
           console.log("posts array added to user doc");

@@ -37,7 +37,7 @@ function Post({ postData, userData }) {
   };
 
   useEffect(() => {
-    if (postData.likes.includes(userData.uid)) {
+    if (postData.likes.includes(userData.userUid)) {
       setLike(true);
     } else {
       setLike(false);
@@ -48,13 +48,13 @@ function Post({ postData, userData }) {
     if (like) {
       //unlike
       await updateDoc(doc(db, "posts", postData.postId), {
-        likes: arrayRemove(userData.uid),
+        likes: arrayRemove(userData.userUid),
       });
     } else {
       //like
       // likes["12345677iuyhtgfrd"]
       await updateDoc(doc(db, "posts", postData.postId), {
-        likes: arrayUnion(userData.uid),
+        likes: arrayUnion(userData.userUid),
       });
     }
   };
